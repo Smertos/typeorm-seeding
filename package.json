@@ -17,6 +17,9 @@
     "type": "git",
     "url": "https://github.com/Smertos/typeorm-seeding.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "exports": {
     ".": {
       "types": "./index.d.ts",
