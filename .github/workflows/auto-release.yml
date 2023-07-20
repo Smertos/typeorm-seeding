@@ -26,7 +26,8 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
-          registry-url: 'https://npm.pkg.github.com'
+      - name: Setup node (manual)
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}\n registry=https://npm.pkg.github.com/\n always-auth=true" > ~/.npmrc
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build & assemble package
@@ -34,5 +35,3 @@ jobs:
       - name: Publish package
         working-directory: ./build/package
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
