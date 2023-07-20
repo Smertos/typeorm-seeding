@@ -30,8 +30,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build project
-        run: yarn package
+        run: yarn packaget
       - name: Publish package
-        run: cd build/package && yarn publish
+        working-directory: ./build/package
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
