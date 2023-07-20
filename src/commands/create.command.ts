@@ -42,7 +42,7 @@ export class CreateCommand implements yargs.CommandModule {
 
   async handler(args: yargs.Arguments<IArgs>) {
     const log = console.log;
-    const pkg = await readPackage({ cwd: path.join(process.cwd(), 'node_modules/@smertos/typeorm-seeding') });
+    const pkg = await readPackage({ cwd: path.join(process.cwd(), 'node_modules/typeorm-seedling') });
     log('🌱  ' + chalk.bold(`TypeORM Seeding v${(pkg as any).version}`));
 
     const spinner = ora('Loading ormconfig').start()

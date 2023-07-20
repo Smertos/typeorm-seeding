@@ -1,6 +1,6 @@
 {
-  "name": "@smertos/typeorm-seeding",
-  "version": "4.0.1",
+  "name": "typeorm-seedling",
+  "version": "4.0.3",
   "description": "🌱 A delightful way to seed test data into your database.",
   "license": "MIT",
   "author": "Sayed Mahmoud <sayed@paranode.dev> (https://github.com/sayedmahmoud266), Gery Hirschfeld <gery.hirschfeld@w3tec.ch> (https://github.com/hirsch88)",
@@ -17,7 +17,7 @@
     "url": "https://github.com/Smertos/typeorm-seeding.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org"
   },
   "exports": {
     ".": {
@@ -85,7 +85,7 @@
     "sqlite": "^4.1.2",
     "sqlite3": "^5.1.2",
     "ts-jest": "^29.0.3",
-    "typeorm": "^0.3.16",
+    "typeorm": "0.3.16",
     "typescript": "^4.9.5"
   },
   "dependencies": {

@@ -10,3 +10,4 @@ logo.png
 ormconfig.js
 tsconfig.build.json
 tsconfig.json
+*.tgz
