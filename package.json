@@ -1,10 +1,10 @@
 {
-  "name": "@paranode/typeorm-seeding",
+  "name": "@smertos/typeorm-seeding",
   "private": true,
   "version": "4.0.0",
   "description": "🌱 A delightful way to seed test data into your database.",
   "license": "MIT",
-  "author": "Sayed Mahmoud <sayed@paranode.dev> (https://github.com/sayedmahmoud266) ,Gery Hirschfeld <gery.hirschfeld@w3tec.ch> (https://github.com/hirsch88)",
+  "author": "Sayed Mahmoud <sayed@paranode.dev> (https://github.com/sayedmahmoud266), Gery Hirschfeld <gery.hirschfeld@w3tec.ch> (https://github.com/hirsch88)",
   "main": "./index.js",
   "module": "./index.mjs",
   "types": "./index.d.ts",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/paranode/typeorm-seeding.git"
+    "url": "https://github.com/Smertos/typeorm-seeding.git"
   },
   "exports": {
     ".": {
