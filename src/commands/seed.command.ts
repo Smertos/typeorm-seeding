@@ -9,6 +9,7 @@ import { configureConnection, getConnectionOptions, ConnectionOptions, createCon
 import { logToSeedTable } from '../utils/log-to-seed-table.util';
 import readPackage from 'read-pkg';
 import path from 'path';
+import { EntityManager } from 'typeorm';
 
 interface IArgs {
   datasource: string;
@@ -94,9 +95,16 @@ export class SeedCommand implements yargs.CommandModule {
     // Create Seed table if not exists
     spinner.start('Get Executed Seeders & filter seed classes');
     let seedsAlreadyRan: Array<ISeedTable> = [];
+
+
     try {
-      await createSeedTable(option);
+      const connection = await createConnection(option);
+      const queryRunner = connection.createQueryRunner();
+
+      await createSeedTable(queryRunner, option);
+
       seedsAlreadyRan = await getExecutedSeeds(option);
+
       const seedRanNames = seedsAlreadyRan.map(sar => sar.className);
       seedFileObjects = seedFileObjects.map(sfo => sfo?.default ? sfo.default : sfo);
       seedFileObjects = seedFileObjects.filter(sfo => !seedRanNames.includes(sfo.name) || (args.seed && args.seed === sfo.name));
@@ -108,12 +116,31 @@ export class SeedCommand implements yargs.CommandModule {
     // Run seeds
     for (const seedFileObject of seedFileObjects) {
       spinner.start(`Executing ${seedFileObject.name} Seeder`)
+
+      const connection = await createConnection(option);
+      const queryRunner = connection.createQueryRunner();
+
       try {
-        await runSeeder(seedFileObject)
-        await logToSeedTable(seedFileObject.name, option)
+        await queryRunner.startTransaction();
+      } catch (error) {
+        panic(spinner, error, 'Failed to begin transaction');
+      }
+
+      try {
+        await runSeeder(queryRunner, seedFileObject)
+        await logToSeedTable(queryRunner, seedFileObject.name, option)
+
         spinner.succeed(`Seeder ${seedFileObject.name} executed`)
       } catch (error) {
         panic(spinner, error, `Could not run the seed ${seedFileObject.name}!`)
+      }
+
+      try {
+        await queryRunner.commitTransaction();
+      } catch (error) {
+        await queryRunner.rollbackTransaction();
+      } finally {
+        await queryRunner.release();
       }
     }
 

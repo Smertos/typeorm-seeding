@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { DataSource, ObjectType } from 'typeorm'
+import { DataSource, ObjectType, QueryRunner } from 'typeorm'
 
 import { EntityFactory } from './entity-factory'
 import { EntityFactoryDefinition, Factory, FactoryFunction, SeederConstructor, Seeder } from './types'
@@ -40,10 +40,9 @@ export const factory: Factory = <Entity, Context>(entity: ObjectType<Entity>) =>
   return new EntityFactory<Entity, Context>(name, entity, entityFactoryObject.factory, context)
 }
 
-export const runSeeder = async (clazz: SeederConstructor): Promise<any> => {
+export const runSeeder = async (queryRunner: QueryRunner, clazz: SeederConstructor): Promise<any> => {
   const seeder: Seeder = new clazz()
-  const connection = await createConnection()
-  return seeder.run(factory, connection)
+  return seeder.run(factory, queryRunner)
 }
 
 // -------------------------------------------------------------------------

@@ -1,13 +1,25 @@
-import { Table } from 'typeorm'
+import { QueryRunner, Table } from 'typeorm'
 import { createConnection, ConnectionOptions } from './../connection'
+import { queryQuote } from './query-quote.util';
+
+function getCompatableTimestampColumnType(options: ConnectionOptions): string {
+  if (options.type === 'mssql') {
+    return 'datetime';
+  }
+
+  if (options.type === 'postgres') {
+    return 'timestampz';
+  }
+
+  return 'timestamp';
+}
 
 export interface ISeedTable {
   className: string
   ran_at: Date
 }
-export const createSeedTable = async (options: ConnectionOptions) => {
-  const connection = await createConnection(options)
-  await connection.createQueryRunner().createTable(
+export const createSeedTable = async (queryRunner: QueryRunner, options: ConnectionOptions) => {
+  await queryRunner.createTable(
     new Table({
       name: options.seedsTableName || 'typeorm_seeds',
       columns: [
@@ -19,8 +31,8 @@ export const createSeedTable = async (options: ConnectionOptions) => {
         },
         {
           name: 'ran_at',
-          type: 'timestamp',
-          default: 'now()',
+          type: getCompatableTimestampColumnType(options),
+          default: 'CURRENT_TIMESTAMP',
         },
       ],
     }),
@@ -30,5 +42,7 @@ export const createSeedTable = async (options: ConnectionOptions) => {
 
 export const getExecutedSeeds = async (options: ConnectionOptions) => {
   const connection = await createConnection(options)
-  return await connection.query(`select * from "${options.seedsTableName || 'typeorm_seeds'}"`)
+  const tableName = queryQuote(options, options.seedsTableName || 'typeorm_seeds')
+
+  return await connection.query(`select * from ${tableName}`)
 }
