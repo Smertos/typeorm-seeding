@@ -1,6 +1,6 @@
 {
   "name": "typeorm-seedling",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "🌱 A delightful way to seed test data into your database.",
   "license": "MIT",
   "author": "Sayed Mahmoud <sayed@paranode.dev> (https://github.com/sayedmahmoud266), Gery Hirschfeld <gery.hirschfeld@w3tec.ch> (https://github.com/hirsch88)",
@@ -59,7 +59,6 @@
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
     "@types/bcryptjs": "^2.4.2",
-    "@types/glob": "8.0.0",
     "@types/jest": "^29.2.2",
     "@types/lodash": "^4.14.188",
     "@types/node": "^18.11.9",
@@ -91,7 +90,7 @@
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "chalk": "4.1.2",
-    "glob": "8.0.3",
+    "glob": "^10.3.3",
     "ora": "5.4.1",
     "read-pkg": "5.2.0",
     "reflect-metadata": "0.1.13",
