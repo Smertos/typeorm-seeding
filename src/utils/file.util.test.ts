@@ -6,7 +6,7 @@ describe('loadFiles', () => {
   let syncMock: jest.Mock
   beforeEach(() => {
     syncMock = jest.fn()
-    ;(glob as any).sync = syncMock
+    ;(glob as any).globSync = syncMock
     syncMock.mockReturnValue(['fileA', 'fileB'])
   })
 
@@ -21,6 +21,6 @@ describe('loadFiles', () => {
   test('Should call the sync method with the cwd path', () => {
     const results = loadFiles(['path/to/files'])
 
-    expect(syncMock).toBeCalledWith(path.join(process.cwd(), 'path/to/files'))
+    expect(syncMock).toBeCalledWith(path.join(process.cwd(), 'path/to/files'), { windowsPathsNoEscape: true })
   })
 })

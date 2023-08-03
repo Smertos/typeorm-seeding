@@ -37,7 +37,7 @@ export const define = <Entity, Context>(entity: ObjectType<Entity>, factoryFn: F
 export const factory: Factory = <Entity, Context>(entity: ObjectType<Entity>) => (context?: Context) => {
   const name = getNameOfEntity(entity)
   const entityFactoryObject = (global as any).seeder.entityFactories.get(name)
-  return new EntityFactory<Entity, Context>(name, entity, entityFactoryObject.factory, context)
+  return new EntityFactory<Entity, Context>(name, entity, entityFactoryObject?.factory, context)
 }
 
 export const runSeeder = async (queryRunner: QueryRunner, clazz: SeederConstructor): Promise<any> => {
@@ -67,6 +67,6 @@ export const tearDownDatabase = async (): Promise<void> => {
 export const useSeeding = async (options: ConfigureOption = {}): Promise<void> => {
   configureConnection(options)
   const option = await getConnectionOptions()
-  const factoryFiles = loadFiles(option.factories)
+  const factoryFiles = loadFiles(option?.factories ?? [])
   await importFiles(factoryFiles)
 }

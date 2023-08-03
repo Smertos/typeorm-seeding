@@ -11,7 +11,7 @@ export class EntityFactory<Entity, Context> {
   constructor(
     public name: string,
     public entity: ObjectType<Entity>,
-    private factory: FactoryFunction<Entity, Context>,
+    private factory?: FactoryFunction<Entity, Context>,
     private context?: Context,
   ) {}
 
@@ -59,7 +59,7 @@ export class EntityFactory<Entity, Context> {
   }
 
   public async makeMany(amount: number, overrideParams: EntityProperty<Entity> = {}): Promise<Entity[]> {
-    const list = []
+    const list = [] as Array<Entity>;
     for (let index = 0; index < amount; index++) {
       list[index] = await this.make(overrideParams)
     }
@@ -71,7 +71,7 @@ export class EntityFactory<Entity, Context> {
     overrideParams: EntityProperty<Entity> = {},
     saveOptions?: SaveOptions,
   ): Promise<Entity[]> {
-    const list = []
+    const list = [] as Array<Entity>;
     for (let index = 0; index < amount; index++) {
       list[index] = await this.create(overrideParams, saveOptions)
     }
@@ -113,7 +113,7 @@ export class EntityFactory<Entity, Context> {
 
   private async resolveEntity(entity: Entity, isSeeding = false): Promise<Entity> {
     for (const attribute in entity) {
-      if (!entity.hasOwnProperty(attribute)) {
+      if (typeof entity === 'object' && !entity?.hasOwnProperty(attribute)) {
         continue
       }
       if (isPromiseLike(entity[attribute])) {
@@ -122,7 +122,7 @@ export class EntityFactory<Entity, Context> {
       if (
         entity[attribute] &&
         typeof entity[attribute] === 'object' &&
-        entity[attribute].constructor.name === EntityFactory.name
+        entity[attribute]?.constructor.name === EntityFactory.name
       ) {
         const subEntityFactory = entity[attribute]
         try {

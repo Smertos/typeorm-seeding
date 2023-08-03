@@ -13,9 +13,9 @@ const createTypeOrmConnection = (options: DataSourceOptions) => {
 
 
 interface SeedingOptions {
-  factories: string[]
-  seeds: string[]
-  seedsTableName: string
+  factories?: string[]
+  seeds?: string[]
+  seedsTableName?: string
   cli?: {
     seedsDir?: string
   }
@@ -56,7 +56,7 @@ export const configureConnection = (option: ConfigureOption = {}) => {
   }
 }
 
-export const setConnectionOptions = (options: Partial<DataSourceOptions>): void => {
+export const setConnectionOptions = (options: Partial<DataSourceOptions & SeedingOptions>): void => {
   ;(global as any)[KEY].overrideConnectionOptions = options
 }
 
@@ -86,17 +86,21 @@ export const getConnectionOptions = async (): Promise<ConnectionOptions> => {
       }
     }
     if (options.length === 1) {
-      const option = options[0].options
-      if (!option.factories) {
+      const option: SeedingOptions = options[0]?.options ?? {};
+
+      if (!option?.factories) {
         option.factories = [process.env.TYPEORM_SEEDING_FACTORIES || 'src/database/factories/**/*{.ts,.js}']
       }
-      if (!option.seeds) {
+
+      if (!option?.seeds) {
         option.seeds = [process.env.TYPEORM_SEEDING_SEEDS || 'src/database/seeds/**/*{.ts,.js}']
       }
+
       ;(global as any)[KEY].ormConfig = {
         ...option,
         ...overrideConnectionOptions,
       }
+
       return (global as any)[KEY].ormConfig
     }
     printError('There are multiple connections please provide a connection name')
