@@ -3,7 +3,7 @@
   "version": "4.0.5",
   "description": "🌱 A delightful way to seed test data into your database.",
   "license": "MIT",
-  "author": "Sayed Mahmoud <sayed@paranode.dev> (https://github.com/sayedmahmoud266), Gery Hirschfeld <gery.hirschfeld@w3tec.ch> (https://github.com/hirsch88)",
+  "author": "Mikhail Vedernikov <mr.smertos@gmail.com>, Sayed Mahmoud <sayed@paranode.dev> (https://github.com/sayedmahmoud266), Gery Hirschfeld <gery.hirschfeld@w3tec.ch> (https://github.com/hirsch88)",
   "main": "./index.js",
   "module": "./index.mjs",
   "types": "./index.d.ts",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Smertos/typeorm-seeding.git"
+    "url": "https://github.com/Smertos/typeorm-seedling.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
