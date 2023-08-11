@@ -1,38 +1,45 @@
-import readPackage from 'read-pkg';
-import * as yargs from 'yargs'
-import chalk from 'chalk'
-import { printError } from '../utils/log.util'
-import { configureConnection, getConnectionOptions } from '../connection'
+import chalk from 'chalk';
 import path from 'path';
+import readPackage from 'read-pkg';
+import * as yargs from 'yargs';
+import { configureConnection, getConnectionOptions } from '../connection';
+import { initCommand } from '../utils/command.util';
+import { printError } from '../utils/log.util';
 
 interface IArgs {
+  connection?: string;
   datasource: string;
   root: string;
-  connection: string;
 }
 
-export class ConfigCommand implements yargs.CommandModule {
+export class ConfigCommand implements yargs.CommandModule<{}, IArgs> {
   command = 'config'
   describe = 'Show the TypeORM config'
 
   builder(args: yargs.Argv) {
     return args
-      .option('d', {
-        alias: 'datasource',
+      .option('connection', {
+        alias: 'c',
+        describe: 'Name of the typeorm connection.',
+        type: 'string',
+      })
+      .option('datasource', {
+        alias: 'd',
         default: '',
         describe: 'Name of the typeorm datasource file (json or js).',
+        type: 'string',
       })
-      .option('r', {
-        alias: 'root',
+      .option('root', {
+        alias: 'r',
         default: process.cwd(),
         describe: 'Path to your typeorm datasource file',
+        type: 'string',
       })
   }
 
   async handler(args: yargs.Arguments<IArgs>) {
-    const log = console.log
-    const pkg = await readPackage({ cwd: path.join(process.cwd(), 'node_modules/typeorm-seedling') });
-    log('🌱  ' + chalk.bold(`TypeORM Seeding v${(pkg as any).version}`))
+    const log = await initCommand();
+
     try {
       configureConnection({
         root: args.root,

@@ -1,49 +1,55 @@
-import readPackage from 'read-pkg';
 import chalk from "chalk";
+import * as fs from 'fs';
+import _ from 'lodash';
 import ora, { Ora } from "ora";
+import path from 'path';
 import * as yargs from "yargs";
 import { configureConnection, ConnectionOptions, getConnectionOptions } from "../connection.js";
-import * as fs from 'fs';
-import path from 'path';
-import _ from 'lodash';
 import makeTemplate from "../templates/create-seeder.template.js";
+import { panic, initCommand } from "../utils/command.util.js";
 
 
 interface IArgs {
-  fileName: string;
+  connection?: string;
   datasource: string;
+  fileName: string;
   root: string;
-  connection: string;
 }
 
-export class CreateCommand implements yargs.CommandModule {
+export class CreateCommand implements yargs.CommandModule<{}, IArgs> {
   command = 'create';
   describe = 'Creates a new seeder file';
 
   builder(args: yargs.Argv) {
     //
     return args
-    .option('f', {
-      alias: 'fileName',
-      default: '',
-      describe: 'the name of the seeder file to be created'
-    })
-    .option('d', {
-      alias: 'datasource',
-      default: '',
-      describe: 'Name of the typeorm datasource file (json or js).',
-    })
-    .option('r', {
-      alias: 'root',
-      default: process.cwd(),
-      describe: 'Path to your typeorm config file',
-    });
+      .option('connection', {
+        alias: 'c',
+        describe: 'Name of the typeorm connection.',
+        type: 'string',
+      })
+      .option('fileName', {
+        alias: 'f',
+        default: '',
+        describe: 'Name of the seeder file to be created',
+        type: 'string',
+      })
+      .option('datasource', {
+        alias: 'd',
+        default: '',
+        describe: 'Name of the typeorm datasource file (json or js).',
+        type: 'string',
+      })
+      .option('root', {
+        alias: 'r',
+        default: process.cwd(),
+        describe: 'Path to your typeorm config file',
+        type: 'string',
+      });
   }
 
   async handler(args: yargs.Arguments<IArgs>) {
-    const log = console.log;
-    const pkg = await readPackage({ cwd: path.join(process.cwd(), 'node_modules/typeorm-seedling') });
-    log('🌱  ' + chalk.bold(`TypeORM Seeding v${(pkg as any).version}`));
+    await initCommand();
 
     const spinner = ora('Loading ormconfig').start()
     const configureOption = {
@@ -94,11 +100,4 @@ export class CreateCommand implements yargs.CommandModule {
     process.exit(0);
 
   }
-}
-
-
-function panic(spinner: Ora, error: Error, message: string) {
-  spinner.fail(message)
-  console.error(error)
-  process.exit(1)
 }
