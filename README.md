@@ -2,11 +2,11 @@
   <img src="./logo.png" alt="logo" width="160" />
 </p>
 
-<h1 align="center" style="text-align: center;">TypeORM Seeding</h1>
+<h1 align="center" style="text-align: center;">TypeORM Seedling</h1>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@paranode/typeorm-seeding">
-    <img src="https://img.shields.io/npm/v/@paranode/typeorm-seeding" alt="NPM package" />
+  <a href="https://www.npmjs.com/package/typeorm-seedling">
+    <img src="https://img.shields.io/npm/v/typeorm-seedling" alt="NPM package" />
   </a>
   <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="Sematic-Release" /></a>
 </p>

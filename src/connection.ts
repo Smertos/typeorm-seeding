@@ -22,6 +22,7 @@ interface SeedingOptions {
 }
 
 export declare type ConnectionOptions = DataSourceOptions & SeedingOptions
+
 export class DataSource extends TODataSource {
   declare options: ConnectionOptions
 }

@@ -1,8 +1,8 @@
-name: Autorelease on version up
+name: Autorelease on new release
 
 on:
-  push:
-    branches: [ master ]
+  release:
+    types: [ created ]
 
 jobs:
   release:
@@ -26,12 +26,14 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
-      - name: Setup node (manual)
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}\n registry=https://npm.pkg.github.com/\n always-auth=true" > ~/.npmrc
+      #- name: Setup node (manual)
+      #  run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NODE_AUTH_TOKEN }}\n registry=https://npm.pkg.github.com/\n always-auth=true" > ~/.npmrc
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build & assemble package
         run: yarn package
       - name: Publish package
+        run: yarn publish
         working-directory: ./build/package
-        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

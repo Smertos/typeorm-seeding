@@ -1,4 +1,6 @@
-module.exports = [
+import type { ConnectionOptions } from './src/connection';
+
+const connections: Array<ConnectionOptions> = [
     {
         name: 'default',
         type: 'sqlite',
@@ -15,4 +17,6 @@ module.exports = [
         factories: ['sample/factories/**/*{.ts,.js}'],
         seeds: ['sample/seeds/**/*{.ts,.js}'],
     }
-]
+];
+
+export default connections;
