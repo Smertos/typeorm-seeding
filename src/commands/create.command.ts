@@ -67,7 +67,6 @@ export class CreateCommand implements yargs.CommandModule<{}, IArgs> {
 
     } catch (error) {
       panic(spinner, error, 'Could not load the config file!');
-      return;
     }
 
     let seedsDir = 'src/database/seeds';
