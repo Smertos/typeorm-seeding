@@ -1,6 +1,6 @@
 {
   "name": "typeorm-seedling",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "🌱 A delightful way to seed test data into your database.",
   "license": "MIT",
   "author": "Mikhail Vedernikov <mr.smertos@gmail.com>, Sayed Mahmoud <sayed@paranode.dev> (https://github.com/sayedmahmoud266), Gery Hirschfeld <gery.hirschfeld@w3tec.ch> (https://github.com/hirsch88)",
