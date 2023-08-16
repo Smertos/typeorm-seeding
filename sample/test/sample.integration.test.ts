@@ -1,12 +1,9 @@
+import { DataSource } from 'typeorm';
 import {
-  useSeeding,
-  useRefreshDatabase,
-  tearDownDatabase,
-  factory,
-  setConnectionOptions,
-} from '../../src/typeorm-seeding'
-import { User } from '../entities/User.entity'
-import { DataSource } from 'typeorm'
+    factory,
+    setConnectionOptions, tearDownDatabase, useRefreshDatabase, useSeeding
+} from '../../src/typeorm-seeding';
+import { User } from '../entities/User.entity';
 
 describe('Sample Integration Test', () => {
   let connection: DataSource;
@@ -15,20 +12,23 @@ describe('Sample Integration Test', () => {
     setConnectionOptions({
       type: 'sqlite',
       database: ':memory:',
-      entities: ['sample/entities/**/*{.ts,.js}'],
-      factories: ['sample/factories/**/*{.ts,.js}'],
-    })
-    connection = await useRefreshDatabase()
-    await useSeeding()
-  })
+      entities: ['sample/entities/*{.ts,.js}'],
+      factories: ['sample/factories/*{.ts,.js}'],
+    });
+
+    connection = await useRefreshDatabase();
+
+    await useSeeding();
+  });
 
   afterAll(async () => {
-    await tearDownDatabase()
-  })
+    await tearDownDatabase();
+  });
 
   test('Should create a user with the entity factory', async () => {
-    const createdUser = await factory(User)().create()
-    const user = await connection.getRepository(User).findOne({where: {id :createdUser.id}})
-    expect(createdUser.firstName).toBe(user.firstName)
-  })
-})
+    const createdUser = await factory(User)().create();
+    const user = await connection.getRepository(User).findOne({ where: { id: createdUser.id } });
+
+    expect(createdUser.firstName).toBe(user?.firstName);
+  });
+});

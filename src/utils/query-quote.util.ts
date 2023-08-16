@@ -1,4 +1,4 @@
-import { ConnectionOptions } from "../connection";
+import { ConnectionOptions } from '../connection';
 
 export function queryQuote(options: ConnectionOptions, whatever: any): string {
   const connectionType = options.type;

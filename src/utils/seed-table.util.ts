@@ -1,5 +1,5 @@
-import { QueryRunner, Table } from 'typeorm'
-import { createConnection, ConnectionOptions } from './../connection'
+import { QueryRunner, Table } from 'typeorm';
+import { createConnection, ConnectionOptions } from './../connection';
 import { queryQuote } from './query-quote.util';
 
 function getCompatableTimestampColumnType(options: ConnectionOptions): string {
@@ -15,9 +15,10 @@ function getCompatableTimestampColumnType(options: ConnectionOptions): string {
 }
 
 export interface ISeedTable {
-  className: string
-  ran_at: Date
+  className: string;
+  ran_at: Date;
 }
+
 export const createSeedTable = async (queryRunner: QueryRunner, options: ConnectionOptions) => {
   await queryRunner.createTable(
     new Table({
@@ -37,12 +38,12 @@ export const createSeedTable = async (queryRunner: QueryRunner, options: Connect
       ],
     }),
     true,
-  )
-}
+  );
+};
 
 export const getExecutedSeeds = async (options: ConnectionOptions) => {
-  const connection = await createConnection(options)
-  const tableName = queryQuote(options, options.seedsTableName || 'typeorm_seeds')
+  const connection = await createConnection(options);
+  const tableName = queryQuote(options, options.seedsTableName || 'typeorm_seeds');
 
-  return await connection.query(`select * from ${tableName}`)
-}
+  return await connection.query(`select * from ${tableName}`);
+};

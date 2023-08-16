@@ -12,9 +12,9 @@ export async function initCommand(): Promise<typeof console.log> {
   return log;
 }
 
-
-export function panic(spinner: Ora, error: Error, message: string): never {
-  spinner.fail(message);
+export function panic(spinner: Ora | undefined, error: unknown, message: string, errorCode: number = 101): never {
+  spinner?.fail(message);
   console.error(error);
-  return process.exit(1);
+
+  return process.exit(errorCode);
 }

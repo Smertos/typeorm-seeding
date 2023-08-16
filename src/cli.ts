@@ -1,19 +1,24 @@
 #!/usr/bin/env node
-import 'reflect-metadata'
-import yargs from 'yargs/yargs'
-import { SeedCommand } from './commands/seed.command'
-import { ConfigCommand } from './commands/config.command'
-import { CreateCommand } from './commands/create.command'
-import { CommandModule } from 'yargs'
 
+import 'reflect-metadata';
+import yargs from 'yargs/yargs';
+import { hideBin } from 'yargs/helpers';
+import { seedCommand } from './commands/seed.command';
+import { configCommand } from './commands/config.command';
+import { createCommand } from './commands/create.command';
 
-yargs(process.argv.slice(2))
-  .usage('Usage: $0 <command> [options]')
-  .command(new ConfigCommand() as CommandModule)
-  .command(new SeedCommand() as CommandModule)
-  .command(new CreateCommand() as CommandModule)
-  .recommendCommands()
-  .demandCommand(1)
-  .strict()
-  .help('h')
-  .alias('h', 'help').argv
+export function runCli(args: Array<string>): object {
+  return yargs(args)
+    .usage('Usage: $0 <command> [options]')
+    .command(configCommand)
+    .command(seedCommand)
+    .command(createCommand)
+    .recommendCommands()
+    .demandCommand(1)
+    .strictCommands()
+    .help('h')
+    .alias('h', 'help')
+    .argv;
+}
+
+runCli(hideBin(process.argv));
